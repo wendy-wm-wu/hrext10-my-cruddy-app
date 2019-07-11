@@ -6,105 +6,86 @@
 
 */
 
-//localStorage functions
-var createItem = function(key, value) {
-  return window.localStorage.setItem(key, value);
-}
-
-var updateItem = function(key, value) {
-  return window.localStorage.setItem(key, value);
-}
-
-var deleteItem = function(key) {
-  return window.localStorage.removeItem(key);
-}
-
-var clearDatabase = function() {
-  return window.localStorage.clear();
-}
-
-var showDatabaseContents = function() {
-  $('tbody').html('');
-
-  for (var i = 0; i < window.localStorage.length; i++) {
-    var key = window.localStorage.key(i);
-    $('tbody').append(`<tr><td>${key}</td><td>${window.localStorage.getItem(key)}</td></tr>`)
-  }
-}
-
-var keyExists = function(key) {
-  return window.localStorage.getItem(key) !== null
-}
-
-var getKeyInput = function() {
-  return $('.key').val();
-}
-
-var getValueInput = function() {
-  return $('.value').val();
-}
-
-var resetInputs = function() {
-  $('.key').val('');
-  $('.value').val('');
-}
-
 $(document).ready(function() {
-  showDatabaseContents();
+ 
 
-  $('.create').click(function() {
-    if (getKeyInput() !== '' && getValueInput() !== '') {
-      if (keyExists(getKeyInput())) {
-        if(confirm('key already exists in database, do you want to update instead?')) {
-          updateItem(getKeyInput(), getValueInput());
-          showDatabaseContents();
-        }
-      } else {
-        createItem(getKeyInput(), getValueInput());
-        showDatabaseContents();
-        resetInputs();
+  const addItems = document.querySelector('.add-items'); //select all added items from form class
+  const itemsList = document.querySelector('.tasks'); //selecting all tasks from list
+  const items = JSON.parse(localStorage.getItem('items')) || []; //get items from local storage; 
+  const deleteBtn = document.querySelector('input[name="delete"]');
+  // const toggleBtn = document.querySelector('input[name="check"]');
+
+  function addItem(e) {
+    e.preventDefault(); 
+    let text = (this.querySelector('[name=item]')).value;  //selecting all the text inputs and extracting value from it 
+    let item = {
+      text,
+      done: false
+    };
+    items.push(item);
+    populateList(items, itemsList);  
+    localStorage.setItem('items', JSON.stringify(items)); 
+    this.reset(); 
+  }
+
+  function populateList(tasks = [], tasksList) {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth();
+    let yyyy = today.getFullYear();
+    tasksList.innerHTML = tasks.map((task, i) => {
+      return `
+        <li>
+          <input class="box" type="checkbox" data-index=${i} id="items${i}" ${task.done ? 'checked' : ''} />
+          <label for="items${i}">${task.text}</label>
+          <br>
+          <input class="star" type="checkbox" title="bookmark page">
+          <div class="date">${mm}/${dd}/${yyyy}</div>
+        </li>
+      `;
+    }).join(''); 
+  }
+
+  function toggle(e) {
+    if(!e.target.matches('input')) return ; //skip this unless it's an input 
+    let el = e.target; 
+    let index = el.dataset.index; 
+    // console.log(el); 
+    // console.log(el.dataset);
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items)); 
+    populateList(items, itemsList); 
+  }
+
+
+  $(deleteBtn).on('click', function() {
+    let currentIndex;
+    let text = (document.querySelector('[name=item]')).value;
+    items.find(function(item, index) {
+      if(item.text === text) {
+        currentIndex = index;
+        items.splice(currentIndex, 1);
       }
-    } else  {
-      alert('key and value must not be blank');
-    }
-  });
-
-  $('.update').click(function() {
-    if (getKeyInput() !== '' && getValueInput() !== '') {
-      if (keyExists(getKeyInput())) {
-        updateItem(getKeyInput(), getValueInput());
-        showDatabaseContents();
-        resetInputs();
-      } else {
-        alert('key does not exist in database');
-      }
-    } else {
-      alert('key and value must not be blank');
-    }
-  });
-
-  $('.delete').click(function() {
-     if (getKeyInput() !== '') {
-      if (keyExists(getKeyInput())) {
-        deleteItem(getKeyInput());
-        showDatabaseContents();
-        resetInputs();
-      } else {
-        alert('key does not exist in database');
-      }
-    } else {
-      alert('key must not be blank');
-    }
-  });
-
-  $('.reset').click(function() {
-    resetInputs();
+    });
+    localStorage.setItem('items', JSON.stringify(items)); 
+    populateList(items, itemsList); 
   })
 
-  $('.clear').click(function() {
-    if (confirm('WARNING: Are you sure you want to clear the database? \n                THIS ACTION CANNOT BE UNDONE')) {
-      clearDatabase();
-      showDatabaseContents();
-    }
-  })
+  ////Checkboxes////
+
+$('#checkAll').click(function() {
+  $('.box').not(this).prop('checked',this.checked);
+});
+
+
+addItems.addEventListener('submit', addItem); 
+itemsList.addEventListener('click', toggle); 
+
+
+populateList(items,itemsList); 
+
+////////Button - Toggle Checkboxes////////
+
+
 })
+
