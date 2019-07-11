@@ -13,3 +13,7 @@ Create Read Update and Delete framework using JS
  ### Advanced Reqs
 - [ ] update/delete column
 - [ ] button disabling when input values are invalid
+
+Please note: 
+Deleted original fork and re-forked. 
+I created 2 projects. Master branch has the final product aka project #2. Other branch has project #1. 
