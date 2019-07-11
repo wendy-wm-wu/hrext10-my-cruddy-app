@@ -11,10 +11,124 @@ inputs (border swag)
 https://getbootstrap.com/docs/4.3/getting-started/introduction/
 */
 
-th {
-  text-decoration: underline;
+
+ html {
+      font-family: 'helvetica neue';
+      background: #92A8D1;
+    }
+
+ body {
+ 	background: #92A8D1;
+ }
+
+.inbox {
+  max-width: 600px;
+  margin: 50px auto;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
 }
 
-label {
-  text-decoration: underline;
+.tasks li {
+  padding: 10px 0;
+  font-weight: 100;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #F1F1F1;
+  position: relative;
 }
+
+.tasks label {
+	cursor:pointer;
+}
+
+.tasks input:checked + label{
+/*	background: #F3E0BE;
+*/ 	text-decoration: line-through;
+}
+
+.date {
+	font-size: 70%;
+	display: flex;
+	align-self:flex-end;
+	justify-content:flex-end;
+	position: absolute;
+ 	/*bottom: 50%;*/
+  	right: 4%;
+}
+
+
+input[type="checkbox"] {
+  margin: 20px;
+}
+
+.tasks li {
+  margin: 0;
+  padding: 15px;
+  transition: background 0.2s;
+  flex: 1;
+  font-family: 'helvetica neue';
+  font-size: 20px;
+  font-weight: 200;
+  border-left: 1px solid #D1E2FF;
+}
+
+
+.add-items input {
+  padding: 10px;
+  outline: 0;
+  margin: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+  font-family: 'helvetica neue';
+}
+
+.add-items {
+  margin-top: 10px;
+  font-family: 'helvetica neue';
+  margin-left: 30px;
+}
+
+input[type="delete"] {
+  margin: 10px;
+  max-width: 91px;
+  text-align:center;
+}
+
+input[type="submit"] {
+  margin: 10px;
+  width: 91px;
+}
+
+#checkAll {
+  margin: 10px;
+/*  max-width: 91px;
+*/}
+
+h1 {
+  display: flex;
+  justify-content: center;	
+  font-family: 'Raleway', sans-serif;
+  margin: 10px;
+}
+
+
+.star {
+    visibility:hidden;
+    font-size:15px;
+    cursor:pointer;
+    display: flex;
+	position: absolute;
+	top: 26%;
+  	right: 15%;
+}
+.star:before {
+   content: "\2605";
+   position: absolute;
+   top: 5px;
+   visibility:visible;
+}
+.star:checked:before {
+   content: "\2606";
+   position: absolute;
+}
+  </style>
