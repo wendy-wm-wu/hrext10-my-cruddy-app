@@ -16,4 +16,4 @@ Create Read Update and Delete framework using JS
 
 Please note: 
 Deleted original fork and re-forked. 
-I created 2 projects. Master branch has the final product aka project #2. Other branch has project #1. 
+I created 2 projects. Master branch has the final product aka project #2. Other branch has project #1. I lost my CSS file for project #1 when I deleted the original repo. 
